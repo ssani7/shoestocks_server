@@ -1,0 +1,11 @@
+import express from 'express';
+
+import { PurchaseController } from './purchase.controller';
+
+const router = express.Router();
+
+router
+  .get('/', PurchaseController.getALlPurchase)
+  .post('/make-purchase', PurchaseController.makePurchase);
+
+export const SalesRouter = router;

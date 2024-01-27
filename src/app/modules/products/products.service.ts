@@ -13,11 +13,11 @@ const getLowStockProducts = async (): Promise<IProduct[]> => {
   return result;
 };
 
-const getStocksCount = async (): Promise<{ totalStock: number }> => {
+const getStocksCount = async (): Promise<{ currentStock: number }> => {
   const result = await Product.aggregate([
-    { $group: { _id: null, totalStocks: { $sum: '$quantity' } } },
+    { $group: { _id: null, currentStock: { $sum: '$quantity' } } },
   ]);
-  return { totalStock: result[0].totalStocks };
+  return { currentStock: result[0].currentStock };
 };
 
 const createProduct = async (payload: IProduct): Promise<IProduct> => {

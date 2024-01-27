@@ -19,11 +19,11 @@ const getAllProducts: RequestHandler = async (req, res, next) => {
 
 const getStockInfo: RequestHandler = async (req, res, next) => {
   try {
-    const { totalStock } = await ProductService.getStocksCount();
+    const { currentStock } = await ProductService.getStocksCount();
     const { totalSale } = await SaleService.getAllSaleAmount();
 
     const result = {
-      totalStock,
+      currentStock,
       totalSale,
     };
 
