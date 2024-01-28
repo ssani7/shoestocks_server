@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import mongoose, { model, Schema } from 'mongoose';
 
 import { ISale } from './sale.interface';
 
@@ -11,7 +11,7 @@ const saleSchema = new Schema<ISale>(
       enum: ['Uttara Warehouse', 'Mirpur Warehouse'],
       required: true,
     },
-    product_id: { type: String, required: true },
+    product_id: { type: mongoose.Schema.ObjectId, required: true },
     sale_quantity: { type: Number, required: true },
     sale_amount: { type: Number, required: true },
   },

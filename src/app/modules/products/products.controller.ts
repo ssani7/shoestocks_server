@@ -64,9 +64,25 @@ const createProduct: RequestHandler = async (req, res, next) => {
   }
 };
 
+const searchProduct: RequestHandler = async (req, res, next) => {
+  try {
+    const { name } = req.query;
+    const result = await ProductService.searchProduct(String(name));
+
+    res.status(200).json({
+      success: true,
+      message: 'Product is created successfully!',
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const ProductController = {
   createProduct,
   getAllProducts,
   getStockInfo,
   getLowStockProducts,
+  searchProduct,
 };

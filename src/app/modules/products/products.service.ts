@@ -25,9 +25,17 @@ const createProduct = async (payload: IProduct): Promise<IProduct> => {
   return result;
 };
 
+const searchProduct = async (payload: string): Promise<IProduct[]> => {
+  const result = await Product.find({
+    name: { $regex: `${payload}`, $options: 'i' },
+  });
+  return result;
+};
+
 export const ProductService = {
   getAllProducts,
   createProduct,
   getStocksCount,
   getLowStockProducts,
+  searchProduct,
 };

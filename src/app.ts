@@ -16,8 +16,8 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/info', InfoRouter);
-app.use(ProductRouter);
-app.use(SalesRouter);
+app.use('/products', ProductRouter);
+app.use('/sale', SalesRouter);
 
 app.use(globalErrorHandler);
 
