@@ -8,4 +8,4 @@ router
   .get('/', PurchaseController.getALlPurchase)
   .post('/make-purchase', PurchaseController.makePurchase);
 
-export const SalesRouter = router;
+export const PurchaseRouter = router;

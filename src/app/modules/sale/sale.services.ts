@@ -1,10 +1,38 @@
 import { Product } from '../products/products.model';
 
-import { ISale } from './sale.interface';
+import { ISale, SaleCategory } from './sale.interface';
 import { Sale } from './sale.model';
 
-const getAllSales = async (): Promise<ISale[]> => {
-  const result = await Sale.find();
+const getSalesByCategory = async (category: SaleCategory): Promise<ISale[]> => {
+  // calculating differce between current date and category value
+  const today = new Date();
+  const oneDay = 1000 * 60 * 60 * 24;
+  const lastOneDay = new Date(today.valueOf() - 1 * oneDay);
+  const lastWeek = new Date(today.valueOf() - 7 * oneDay);
+  const lastMonth = new Date(today.valueOf() - 30 * oneDay);
+  const lastYear = new Date(today.valueOf() - 365 * oneDay);
+
+  // default showing weekly sales
+  let filter = lastWeek;
+
+  // changing filter accoring to need
+  if (category === 'daily') filter = lastOneDay;
+  else if (category === 'monthly') filter = lastMonth;
+  else if (category === 'yearly') filter = lastYear;
+
+  // const result = await Sale.find({ date: { $gt: ['$date', filter] } });
+
+  const result = await Sale.aggregate([
+    { $match: { date: { $gt: filter } } },
+    {
+      $lookup: {
+        from: 'products',
+        localField: 'product_id',
+        foreignField: '_id',
+        as: 'product',
+      },
+    },
+  ]);
 
   return result;
 };
@@ -30,6 +58,24 @@ const getAllSaleAmount = async (): Promise<{ totalSale: number }> => {
   const result = await Sale.aggregate([
     { $group: { _id: null, totalSale: { $sum: '$sale_amount' } } },
   ]);
+
+  // const range = await Sale.aggregate([
+  //   {
+  //     $group: {
+  //       // _id: {
+  //       //   $cond: [
+  //       //     { $lt: ['$date', fifteenDays] },
+  //       //     '16-30',
+  //       //     { $cond: [{ $lt: ['$date', sevenDays] }, '08-15', '01-07'] },
+  //       //   ],
+  //       // },
+  //       _id: { $lt: ['$date', sevenDays] },
+  //       doc: { $first: '$$ROOT' },
+  //       count: { $sum: 1 },
+  //     },
+  //   },
+  //   { $replaceRoot: { newRoot: '$doc' } },
+  // ]);
 
   return { totalSale: result[0].totalSale };
 };
@@ -61,7 +107,7 @@ const makeSale = async (payload: ISale): Promise<ISale> => {
 
 export const SaleService = {
   makeSale,
-  getAllSales,
+  getSalesByCategory,
   getAllSaleAmount,
   getRecentSales,
 };

@@ -1,6 +1,21 @@
 import { RequestHandler } from 'express';
 
+import { SaleCategory } from './sale.interface';
 import { SaleService } from './sale.services';
+
+const getSalesByCategory: RequestHandler = async (req, res, next) => {
+  try {
+    const category = req.params.category as SaleCategory;
+    const result = await SaleService.getSalesByCategory(category);
+
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 
 const getRecentSales: RequestHandler = async (req, res, next) => {
   try {
@@ -32,4 +47,5 @@ const makeSale: RequestHandler = async (req, res, next) => {
 export const SalesController = {
   makeSale,
   getRecentSales,
+  getSalesByCategory,
 };

@@ -17,7 +17,7 @@ const getALlPurchase: RequestHandler = async (req, res, next) => {
 
 const makePurchase: RequestHandler = async (req, res, next) => {
   try {
-    const { ...purchaseData } = req.body;
+    const purchaseData = req.body;
     const result = await PurchaseService.makePurchase(purchaseData);
 
     res.status(200).json({

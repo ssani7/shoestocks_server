@@ -8,3 +8,5 @@ export type ISale = {
   sale_quantity: number;
   sale_amount: number;
 };
+
+export type SaleCategory = 'daily' | 'weekly' | 'monthly' | 'yearly';

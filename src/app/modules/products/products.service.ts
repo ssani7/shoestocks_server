@@ -1,8 +1,16 @@
+import { productFilterGenerator } from '../../../config/helper';
+
 import { IProduct } from './products.interface';
 import { Product } from './products.model';
 
 const getAllProducts = async (): Promise<IProduct[]> => {
   const result = await Product.find();
+  return result;
+};
+
+const getProductsByFilter = async (filter: any): Promise<IProduct[]> => {
+  const queryFilter = productFilterGenerator(filter);
+  const result = await Product.find(queryFilter);
   return result;
 };
 
@@ -32,10 +40,17 @@ const searchProduct = async (payload: string): Promise<IProduct[]> => {
   return result;
 };
 
+const deleteProduct = async (_id: string): Promise<any> => {
+  const result = await Product.deleteOne({ _id: _id });
+  return result;
+};
+
 export const ProductService = {
   getAllProducts,
   createProduct,
   getStocksCount,
   getLowStockProducts,
   searchProduct,
+  getProductsByFilter,
+  deleteProduct,
 };

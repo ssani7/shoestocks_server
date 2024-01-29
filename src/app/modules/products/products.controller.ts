@@ -17,6 +17,20 @@ const getAllProducts: RequestHandler = async (req, res, next) => {
   }
 };
 
+const getProductsByFilter: RequestHandler = async (req, res, next) => {
+  try {
+    const filter = req.query;
+    const result = await ProductService.getProductsByFilter(filter);
+
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getStockInfo: RequestHandler = async (req, res, next) => {
   try {
     const { currentStock } = await ProductService.getStocksCount();
@@ -79,10 +93,27 @@ const searchProduct: RequestHandler = async (req, res, next) => {
   }
 };
 
+const deleteProduct: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await ProductService.deleteProduct(id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Product is created successfully!',
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const ProductController = {
   createProduct,
   getAllProducts,
   getStockInfo,
   getLowStockProducts,
   searchProduct,
+  getProductsByFilter,
+  deleteProduct,
 };
