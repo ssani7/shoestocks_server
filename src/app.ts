@@ -2,6 +2,7 @@ import cors from 'cors';
 import express, { Application, Request, Response, urlencoded } from 'express';
 
 import { globalErrorHandler } from './app/middleware/globalErrorHandler';
+import { UserRouter } from './app/modules/auth/user/user.route';
 import { InfoRouter } from './app/modules/dashboardInfo/info.route';
 import { ProductRouter } from './app/modules/products/products.routes';
 import { SalesRouter } from './app/modules/sale/sale.route';
@@ -15,6 +16,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send('ShoeStocks.com');
 });
 
+app.use('/auth', UserRouter);
 app.use('/info', InfoRouter);
 app.use('/products', ProductRouter);
 app.use('/sale', SalesRouter);
