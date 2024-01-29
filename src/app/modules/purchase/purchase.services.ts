@@ -10,6 +10,14 @@ const getAllPurchases = async (): Promise<IPurchase[]> => {
   return result;
 };
 
+const getAllPurchasesAmount = async (): Promise<{ totalPurchase: number }> => {
+  const result = await Purchase.aggregate([
+    { $group: { _id: null, totalPurchase: { $sum: '$purchase_amount' } } },
+  ]);
+
+  return { totalPurchase: result[0].totalPurchase };
+};
+
 const getAllPurchaseAmount = async (): Promise<{ totalPurchase: number }> => {
   const result = await Purchase.aggregate([
     { $group: { _id: null, totalPurchase: { $sum: '$purchase_amount' } } },
@@ -48,4 +56,5 @@ export const PurchaseService = {
   makePurchase,
   getAllPurchases,
   getAllPurchaseAmount,
+  getAllPurchasesAmount,
 };

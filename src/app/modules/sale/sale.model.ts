@@ -14,6 +14,7 @@ const saleSchema = new Schema<ISale>(
     product_id: { type: mongoose.Schema.ObjectId, required: true },
     sale_quantity: { type: Number, required: true },
     sale_amount: { type: Number, required: true },
+    product_name: { type: String, required: true },
   },
   {
     timestamps: true,

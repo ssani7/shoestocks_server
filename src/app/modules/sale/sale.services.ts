@@ -54,6 +54,22 @@ const getRecentSales = async (): Promise<ISale[]> => {
   return result;
 };
 
+const getBestSelling = async (): Promise<ISale[]> => {
+  const result = await Sale.aggregate([
+    {
+      $group: {
+        _id: '$product_id',
+        name: { $first: '$product_name' },
+        value: { $sum: '$sale_amount' },
+      },
+    },
+    { $sort: { value: -1 } },
+    { $limit: 5 },
+  ]);
+
+  return result;
+};
+
 const getAllSaleAmount = async (): Promise<{ totalSale: number }> => {
   const result = await Sale.aggregate([
     { $group: { _id: null, totalSale: { $sum: '$sale_amount' } } },
@@ -110,4 +126,5 @@ export const SaleService = {
   getSalesByCategory,
   getAllSaleAmount,
   getRecentSales,
+  getBestSelling,
 };

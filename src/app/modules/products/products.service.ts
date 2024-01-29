@@ -8,6 +8,11 @@ const getAllProducts = async (): Promise<IProduct[]> => {
   return result;
 };
 
+const getProductByID = async (id: string): Promise<any> => {
+  const result = await Product.findOne({ _id: id });
+  return result;
+};
+
 const getProductsByFilter = async (filter: any): Promise<IProduct[]> => {
   const queryFilter = productFilterGenerator(filter);
   const result = await Product.find(queryFilter);
@@ -40,6 +45,18 @@ const searchProduct = async (payload: string): Promise<IProduct[]> => {
   return result;
 };
 
+const updateProduct = async (_id: string, productData: any): Promise<any> => {
+  const result = await Product.updateOne(
+    { _id: _id },
+    {
+      $set: {
+        ...productData,
+      },
+    },
+  );
+  return result;
+};
+
 const deleteProduct = async (_id: string): Promise<any> => {
   const result = await Product.deleteOne({ _id: _id });
   return result;
@@ -53,4 +70,6 @@ export const ProductService = {
   searchProduct,
   getProductsByFilter,
   deleteProduct,
+  updateProduct,
+  getProductByID,
 };

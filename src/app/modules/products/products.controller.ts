@@ -17,6 +17,20 @@ const getAllProducts: RequestHandler = async (req, res, next) => {
   }
 };
 
+const getProductByID: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await ProductService.getProductByID(id);
+
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getProductsByFilter: RequestHandler = async (req, res, next) => {
   try {
     const filter = req.query;
@@ -108,6 +122,22 @@ const deleteProduct: RequestHandler = async (req, res, next) => {
   }
 };
 
+const updateProduct: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { ...productData } = req.body;
+    const result = await ProductService.updateProduct(id, productData);
+
+    res.status(200).json({
+      success: true,
+      message: 'Product is created successfully!',
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const ProductController = {
   createProduct,
   getAllProducts,
@@ -116,4 +146,6 @@ export const ProductController = {
   searchProduct,
   getProductsByFilter,
   deleteProduct,
+  updateProduct,
+  getProductByID,
 };

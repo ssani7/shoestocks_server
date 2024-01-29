@@ -30,6 +30,19 @@ const getRecentSales: RequestHandler = async (req, res, next) => {
   }
 };
 
+const getBestSelling: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await SaleService.getBestSelling();
+
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const makeSale: RequestHandler = async (req, res, next) => {
   try {
     const { saleData } = req.body;
@@ -48,4 +61,5 @@ export const SalesController = {
   makeSale,
   getRecentSales,
   getSalesByCategory,
+  getBestSelling,
 };
