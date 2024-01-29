@@ -6,7 +6,7 @@ const router = express.Router();
 
 router
   .get('/userInfo/:email', UserController.getUserInfo)
-  .get('/login', UserController.login)
+  .post('/login', UserController.login)
   .post('/register', UserController.register);
 
 export const UserRouter = router;

@@ -1,3 +1,7 @@
+import jwt from 'jsonwebtoken';
+
+import config from '../../../../config';
+
 import { LoginData } from './user.interface';
 import { User } from './user.model';
 
@@ -8,7 +12,11 @@ const login = async (userdata: LoginData) => {
 
   if (user.password !== userdata.password) throw new Error('Invalid password');
 
-  return user;
+  const token = jwt.sign(user.toJSON(), config.jwt_token as string, {
+    expiresIn: '1D',
+  });
+
+  return { user, token };
 };
 
 const register = async (userdata: LoginData) => {

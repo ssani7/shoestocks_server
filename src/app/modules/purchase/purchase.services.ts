@@ -27,8 +27,9 @@ const getAllPurchaseAmount = async (): Promise<{ totalPurchase: number }> => {
 };
 
 const makePurchase = async (
-  payload: IProduct & { _id: string },
+  payload: IProduct & { _id?: string },
 ): Promise<IPurchase> => {
+  console.log('🚀 ~ payload:', payload);
   //   Incrementing product quantity or create new product based on _id
   let productID = payload?._id;
   if (productID)
@@ -37,6 +38,7 @@ const makePurchase = async (
       { $inc: { quantity: payload.quantity } },
     );
   else {
+    delete payload._id;
     const product = await Product.create(payload);
     productID = product._id as unknown as string;
   }
