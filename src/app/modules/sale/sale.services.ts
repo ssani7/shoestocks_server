@@ -35,18 +35,28 @@ const getAllSaleAmount = async (): Promise<{ totalSale: number }> => {
 };
 
 const makeSale = async (payload: ISale): Promise<ISale> => {
-  //   subtracting sale quantity from current quantity
-  console.log(payload);
-  const sub = await Product.updateOne(
-    { _id: payload.product_id, quantity: { $gt: payload.sale_quantity } },
-    { $inc: { quantity: -Number(payload.sale_quantity) } },
-  );
-  //   recoding the sale if the product can be updated
-  if (sub.modifiedCount) return await Sale.create(payload);
+  //  updating product stock with sale data
+  const product = await Product.findOne({ _id: payload.product_id });
+
+  // return error if product is not available
+  if (!product) throw new Error('Product not found');
+
+  const remainingQuantity =
+    Number(product?.quantity) - Number(payload.sale_quantity);
+
+  if (remainingQuantity < 0)
+    throw new Error('Product stock is lower than the sale quantity');
+
+  // deleting the whole product if stock is 0 otherwise reducing quantity
+  if (remainingQuantity === 0)
+    await Product.deleteOne({ _id: payload.product_id });
   else
-    throw new Error(
-      'Product not found or the stock is lower than the quantity',
+    await Product.updateOne(
+      { _id: payload.product_id },
+      { $inc: { quantity: -Number(payload.sale_quantity) } },
     );
+  //   recoding the sale if the product can be updated
+  return await Sale.create(payload);
 };
 
 export const SaleService = {
