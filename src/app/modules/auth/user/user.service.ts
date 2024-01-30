@@ -27,7 +27,11 @@ const register = async (userdata: LoginData) => {
 
   const user = await User.create(userdata);
 
-  return user;
+  const token = jwt.sign(user.toJSON(), config.jwt_token as string, {
+    expiresIn: '1D',
+  });
+
+  return { user, token };
 };
 
 const getUserInfo = async (email: string) => {

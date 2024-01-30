@@ -32,7 +32,10 @@ const register = (userdata) => __awaiter(void 0, void 0, void 0, function* () {
     if (existing)
         throw new Error('User already exists for email: ' + userdata.email);
     const user = yield user_model_1.User.create(userdata);
-    return user;
+    const token = jsonwebtoken_1.default.sign(user.toJSON(), config_1.default.jwt_token, {
+        expiresIn: '1D',
+    });
+    return { user, token };
 });
 const getUserInfo = (email) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.User.findOne({ email: email });
