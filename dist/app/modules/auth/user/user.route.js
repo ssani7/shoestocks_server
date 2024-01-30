@@ -9,6 +9,6 @@ const user_controller_1 = require("./user.controller");
 const router = express_1.default.Router();
 router
     .get('/userInfo/:email', user_controller_1.UserController.getUserInfo)
-    .get('/login', user_controller_1.UserController.login)
+    .post('/login', user_controller_1.UserController.login)
     .post('/register', user_controller_1.UserController.register);
 exports.UserRouter = router;

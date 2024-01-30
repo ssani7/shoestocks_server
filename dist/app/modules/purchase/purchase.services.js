@@ -29,11 +29,13 @@ const getAllPurchaseAmount = () => __awaiter(void 0, void 0, void 0, function* (
     return { totalPurchase: result[0].totalPurchase };
 });
 const makePurchase = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('🚀 ~ payload:', payload);
     //   Incrementing product quantity or create new product based on _id
     let productID = payload === null || payload === void 0 ? void 0 : payload._id;
     if (productID)
         yield products_model_1.Product.updateOne({ _id: payload._id }, { $inc: { quantity: payload.quantity } });
     else {
+        delete payload._id;
         const product = yield products_model_1.Product.create(payload);
         productID = product._id;
     }
