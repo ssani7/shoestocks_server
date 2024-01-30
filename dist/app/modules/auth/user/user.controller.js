@@ -25,7 +25,6 @@ const user_service_1 = require("./user.service");
 const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
-        console.log('🚀 ~ constlogin:RequestHandler= ~ password:', password);
         const result = yield user_service_1.UserServices.login({ email, password });
         res.status(200).json({
             success: true,

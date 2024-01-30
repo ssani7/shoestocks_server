@@ -5,7 +5,6 @@ import { UserServices } from './user.service';
 const login: RequestHandler = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    console.log('🚀 ~ constlogin:RequestHandler= ~ password:', password);
     const result = await UserServices.login({ email, password });
 
     res.status(200).json({

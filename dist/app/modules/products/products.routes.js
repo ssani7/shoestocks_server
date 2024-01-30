@@ -16,6 +16,6 @@ router
     .get('/low-stock', products_controller_1.ProductController.getLowStockProducts)
     .get('/:id', products_controller_1.ProductController.getProductByID)
     .post('/create-product', jwtMiddleware_1.jwtVerify, products_controller_1.ProductController.createProduct)
-    .put('/:id', products_controller_1.ProductController.updateProduct)
-    .delete('/:id', products_controller_1.ProductController.deleteProduct);
+    .put('/:id', jwtMiddleware_1.jwtVerify, products_controller_1.ProductController.updateProduct)
+    .delete('/:id', jwtMiddleware_1.jwtVerify, products_controller_1.ProductController.deleteProduct);
 exports.ProductRouter = router;
