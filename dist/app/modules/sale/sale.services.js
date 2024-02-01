@@ -45,7 +45,7 @@ const getSalesByCategory = (category) => __awaiter(void 0, void 0, void 0, funct
 });
 const getRecentSales = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield sale_model_1.Sale.aggregate([
-        { $sort: { createdAt: -1 } },
+        { $sort: { createdAt: 1 } },
         { $limit: 5 },
         {
             $lookup: {

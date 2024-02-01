@@ -39,7 +39,7 @@ const getSalesByCategory = async (category: SaleCategory): Promise<ISale[]> => {
 
 const getRecentSales = async (): Promise<ISale[]> => {
   const result = await Sale.aggregate([
-    { $sort: { createdAt: -1 } },
+    { $sort: { createdAt: 1 } },
     { $limit: 5 },
     {
       $lookup: {
