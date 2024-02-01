@@ -17,5 +17,6 @@ router
     .get('/:id', products_controller_1.ProductController.getProductByID)
     .post('/create-product', jwtMiddleware_1.jwtVerify, products_controller_1.ProductController.createProduct)
     .put('/:id', jwtMiddleware_1.jwtVerify, products_controller_1.ProductController.updateProduct)
+    .delete('/bulk', jwtMiddleware_1.jwtVerify, products_controller_1.ProductController.bulkDelete)
     .delete('/:id', jwtMiddleware_1.jwtVerify, products_controller_1.ProductController.deleteProduct);
 exports.ProductRouter = router;

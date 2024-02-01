@@ -132,6 +132,20 @@ const deleteProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         next(err);
     }
 });
+const bulkDelete = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { ids } = req.body;
+        const result = yield products_service_1.ProductService.bulkDelete(ids);
+        res.status(200).json({
+            success: true,
+            message: 'Product is created successfully!',
+            data: result,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+});
 const updateProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
@@ -157,4 +171,5 @@ exports.ProductController = {
     deleteProduct,
     updateProduct,
     getProductByID,
+    bulkDelete,
 };

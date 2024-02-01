@@ -122,6 +122,21 @@ const deleteProduct: RequestHandler = async (req, res, next) => {
   }
 };
 
+const bulkDelete: RequestHandler = async (req, res, next) => {
+  try {
+    const { ids } = req.body;
+    const result = await ProductService.bulkDelete(ids);
+
+    res.status(200).json({
+      success: true,
+      message: 'Product is created successfully!',
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const updateProduct: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -148,4 +163,5 @@ export const ProductController = {
   deleteProduct,
   updateProduct,
   getProductByID,
+  bulkDelete,
 };

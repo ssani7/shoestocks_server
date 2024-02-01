@@ -22,7 +22,7 @@ const getProductByID = (id) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const getProductsByFilter = (filter) => __awaiter(void 0, void 0, void 0, function* () {
     const queryFilter = (0, helper_1.productFilterGenerator)(filter);
-    const result = yield products_model_1.Product.find(queryFilter);
+    const result = yield products_model_1.Product.find(queryFilter).sort({ createdAt: -1 });
     return result;
 });
 const getLowStockProducts = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -57,6 +57,10 @@ const deleteProduct = (_id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield products_model_1.Product.deleteOne({ _id: _id });
     return result;
 });
+const bulkDelete = (ids) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield products_model_1.Product.deleteMany({ _id: { $in: ids } });
+    return result;
+});
 exports.ProductService = {
     getAllProducts,
     createProduct,
@@ -67,4 +71,5 @@ exports.ProductService = {
     deleteProduct,
     updateProduct,
     getProductByID,
+    bulkDelete,
 };

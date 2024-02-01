@@ -15,6 +15,7 @@ router
   .get('/:id', ProductController.getProductByID)
   .post('/create-product', jwtVerify, ProductController.createProduct)
   .put('/:id', jwtVerify, ProductController.updateProduct)
+  .delete('/bulk', jwtVerify, ProductController.bulkDelete)
   .delete('/:id', jwtVerify, ProductController.deleteProduct);
 
 export const ProductRouter = router;

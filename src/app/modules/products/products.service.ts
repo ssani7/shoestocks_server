@@ -15,7 +15,7 @@ const getProductByID = async (id: string): Promise<any> => {
 
 const getProductsByFilter = async (filter: any): Promise<IProduct[]> => {
   const queryFilter = productFilterGenerator(filter);
-  const result = await Product.find(queryFilter);
+  const result = await Product.find(queryFilter).sort({ createdAt: -1 });
   return result;
 };
 
@@ -62,6 +62,11 @@ const deleteProduct = async (_id: string): Promise<any> => {
   return result;
 };
 
+const bulkDelete = async (ids: string[]): Promise<any> => {
+  const result = await Product.deleteMany({ _id: { $in: ids } });
+  return result;
+};
+
 export const ProductService = {
   getAllProducts,
   createProduct,
@@ -72,4 +77,5 @@ export const ProductService = {
   deleteProduct,
   updateProduct,
   getProductByID,
+  bulkDelete,
 };
