@@ -25,7 +25,7 @@ function main() {
             server = app_1.default.listen(port, () => {
                 console.log(`App listening on port ${port}`);
             });
-            process.on('unhandledRejection', (err) => {
+            process.on('unhandledRejection', err => {
                 if (server) {
                     server.close();
                     console.log(err);
